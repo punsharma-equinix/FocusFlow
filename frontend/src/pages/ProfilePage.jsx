@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store'
 import { userApi } from '../api'
 import { Btn, Card, Modal, Label, Badge, Divider, Spinner } from '../components/ui'
@@ -6,7 +7,8 @@ import toast from 'react-hot-toast'
 import { format } from 'date-fns'
 
 export default function ProfilePage() {
-  const { user, setUser } = useAuthStore()
+  const { user, setUser, logout } = useAuthStore()
+  const navigate = useNavigate()
   const [gallery, setGallery] = useState([])
   const [loadingGallery, setLoadingGallery] = useState(false)
   const [name, setName] = useState(user?.name || '')
@@ -187,6 +189,11 @@ export default function ProfilePage() {
           </div>
         )}
       </Card>
+
+      {/* Sign Out */}
+      <Btn variant="danger" full onClick={() => { logout(); navigate('/login') }} style={{ marginTop: 24 }}>
+        Sign Out
+      </Btn>
 
       {/* Gallery Lightbox */}
       {lightboxPhoto && (
